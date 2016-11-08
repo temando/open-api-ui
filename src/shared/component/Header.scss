@@ -1,0 +1,33 @@
+.header {
+  background: #1E88E5;
+  min-height: 114px;
+  display: flex;
+  align-items: center;
+}
+
+.headerTitle {
+  @media only screen and (max-width: 992px) {
+    font-size: 36px;
+  }
+  @media only screen and (min-width: 993px) {
+    font-size: 48px;
+  }
+}
+
+.container {
+  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.apiInfo {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  justify-content: flex-end;
+  @media only screen and (max-width: 601px) {
+    align-items: flex-start;
+  }
+}
