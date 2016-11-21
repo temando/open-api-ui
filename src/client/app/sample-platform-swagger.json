@@ -1,0 +1,3369 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Temando API",
+        "description": "Providing consumers with more choice and lowering the cost of shipping.",
+        "version": "1.0.0"
+    },
+    "host": "api.temando.com",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/v1",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/session": {
+            "post": {
+                "summary": "Create a session and authorization token.",
+                "description": "This function returns a Temando API token.",
+                "operationId": "Authenticate",
+                "tags": [
+                    "Authentication"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "credentials",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/AuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Credentials accepted and session tokens created.",
+                        "schema": {
+                            "$ref": "#/definitions/SessionToken"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts": {
+            "post": {
+                "summary": "Register a Temando customer account following the account bluprint.",
+                "description": "This creates a customer account document in the Temando ecosystem, with an initial User, Carrier credential key, serveral Bearer Tokens.",
+                "tags": [
+                    "AccountService"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "registration",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/AccountRegistrationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Credentials accepted and session tokens created.",
+                        "schema": {
+                            "$ref": "#/definitions/AccountDocument"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "412": {
+                        "decription": "Multilingual message saying \"your country is not supported. You will be advised when you can enroll.\"",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/marco": {
+            "get": {
+                "summary": "Get account bluprint.",
+                "description": "Get account bluprint document.",
+                "tags": [
+                    "AccountService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the bluprint for account creation."
+                    }
+                }
+            }
+        },
+        "/accounts/{id}": {
+            "get": {
+                "summary": "Get account document.",
+                "description": "Get account document",
+                "tags": [
+                    "AccountService"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Account ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the contents of the base account document.",
+                        "schema": {
+                            "$ref": "#/definitions/AccountDocument"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "412": {
+                        "description": "If the ID parameter does not match the authenticated account this error code is returned.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update account document.",
+                "description": "Update account document",
+                "tags": [
+                    "AccountService"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Credentials accepted and session tokens created.",
+                        "schema": {
+                            "$ref": "#/definitions/AccountObject"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/{id}/billing": {
+            "get": {
+                "summary": "FIXME: list invoices on an account.",
+                "description": "FIXME: This needs further process documentation",
+                "parameters": [],
+                "tags": [
+                    "AccountService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get full list of invoices."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/{id}/billing/{invoiceId}": {
+            "get": {
+                "summary": "FIXME: list invoices on an account.",
+                "description": "FIXME: This needs further process documentation",
+                "tags": [
+                    "AccountService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns full invoice summary for the invoice specified by the ID."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/{id}/users": {
+            "post": {
+                "summary": "Create a user account and encrypted credential key.",
+                "description": "This function returns a STS function to access the temando resources as well as a key for access to the clients encrypted resources.",
+                "tags": [
+                    "AccountService",
+                    "UserService"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User created."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "List users in an account.",
+                "description": "This function returns all the users and bearer token fingerprints in the account.",
+                "parameters": [],
+                "tags": [
+                    "AccountService",
+                    "UserService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON list of users."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/{id}/users/{userId}": {
+            "get": {
+                "summary": "Read user from account.",
+                "description": "This function returns all the user or bearer token information.",
+                "tags": [
+                    "AccountService",
+                    "UserService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Full user infomation."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update user in account.",
+                "description": "This function does not work with bearer token.",
+                "tags": [
+                    "AccountService",
+                    "UserService"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully saved user infomation."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove user from account.",
+                "description": "FIXME: This needs further process documentation",
+                "tags": [
+                    "AccountService",
+                    "UserService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Remove user from account."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/carriers": {
+            "get": {
+                "summary": "Get list of carriers.",
+                "description": "Get list of carriers available in the account locations. ",
+                "tags": [
+                    "CarrierService"
+                ],
+                "parameters": [
+                    {
+                        "name": "scope",
+                        "in": "query",
+                        "description": "This switch returns what carriers are returned. The \"available\" option returns carriers available for the current account \"locations.\" The \"all\" option returns every carrier available for registration. If type is not specified the currently registered carriers are returned.",
+                        "type": "string",
+                        "enum": [
+                            "available",
+                            "all"
+                        ],
+                        "required": false
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for the returned array of records",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit for the returned array of records.",
+                        "type": "number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of carriers registrations.",
+                        "schema": {
+                            "$ref": "#/definitions/CarrierListResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/carriers/{id}/marco": {
+            "get": {
+                "summary": "Get carrier registration bluprint.",
+                "description": "Get carrier registration bluprint.",
+                "tags": [
+                    "CarrierService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/carriers/{id}": {
+            "post": {
+                "summary": "Register a carrier account following the carrier account bluprint.",
+                "description": "This creates carrier credentials in the account document.  The credentials are encrypted using the carrier credential key.",
+                "tags": [
+                    "CarrierService"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Credentials accepted and session tokens created.",
+                        "schema": {
+                            "$ref": "#/definitions/CarrierRegistration"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get carrier credentials.",
+                "description": "Get carrier credentials from account document.",
+                "tags": [
+                    "CarrierService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update carrier credentials.",
+                "description": "Update carrier credentials in account document.",
+                "tags": [
+                    "CarrierService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove carrier credentials.",
+                "description": "Remove carrier credentials from account document.",
+                "tags": [
+                    "CarrierService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "summary": "Get list of containers in the account document.",
+                "description": "Get list of containers in the account document.",
+                "tags": [
+                    "OrderService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a order object in the account.",
+                "description": "Create a orders object in the account.",
+                "tags": [
+                    "OrderService"
+                ],
+                "parameters": [],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "summary": "Get container.",
+                "description": "Get container from account document.",
+                "tags": [
+                    "OrderService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update container.",
+                "description": "Update container in account document.",
+                "tags": [
+                    "OrderService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove container.",
+                "description": "Remove container from account document.",
+                "tags": [
+                    "OrderService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/{id}/quote": {
+            "post": {
+                "summary": "Create a Quote for an order.",
+                "description": "Create a Quote for an order.",
+                "tags": [
+                    "OrderService"
+                ]
+            }
+        },
+        "/orders/{id}/fulfil": {
+            "post": {
+                "summary": "Create a Fulfillment for an order.",
+                "description": "Create a Fulfillment for an order. FIXME:",
+                "tags": [
+                    "OrderService"
+                ]
+            }
+        },
+        "/shipments": {
+            "get": {
+                "summary": "Get list of shipment ID's.",
+                "description": "Get a list of the ID's for Shipments.",
+                "tags": [
+                    "ShipmentService"
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for the returned array of records",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit for the returned array of records.",
+                        "type": "number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully return a list of shipment ID's"
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a shipment object that can be quoted against.",
+                "description": "This endpoint creates a shipment object. The object will not persist in the system indefinitely if it doesn't get fulfilled.",
+                "tags": [
+                    "ShipmentService"
+                ],
+                "parameters": [
+                    {
+                        "name": "Shipment",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Shipment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Shipment was successfully created.",
+                        "schema": {
+                            "$ref": "http://shipment-service.schemas.ah.temando.io/shipment-create-response+v1.schema.json"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{id}": {
+            "get": {
+                "summary": "Get shipment object.",
+                "description": "Get shipment object.",
+                "tags": [
+                    "ShipmentService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Shipment successfully returned.",
+                        "schema": {
+                            "$ref": "#/definitions/Shipment"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update shipment object.",
+                "description": "Update shipment object.",
+                "tags": [
+                    "ShipmentService"
+                ],
+                "parameters": [
+                    {
+                        "name": "Shipment",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "http://shipment-service.schemas.ah.temando.io/shipment-create-request-v1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Shipment successfully returned.",
+                        "schema": {
+                            "$ref": "#/definitions/Shipment"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove shipment object.",
+                "description": "Remove shipment object.",
+                "tags": [
+                    "ShipmentService"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Shipment successfully deleted."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{id}/quote": {
+            "post": {
+                "summary": "Create a Quote for a shipment object.",
+                "description": "Create a Quote for a shipment object.",
+                "tags": [
+                    "ShipmentService"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Shipment quote created."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{id}/fulfil": {
+            "post": {
+                "summary": "Create a Fulfillment for a shipment object.",
+                "description": "Create a Fulfillment for a shipment object.",
+                "tags": [
+                    "ShipmentService"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Shipment fulfillment created.",
+                        "schema": {
+                            "$ref": "#/definitions/"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{id}/tracking": {
+            "get": {
+                "summary": "Get tracking object.",
+                "description": "Get tracking object.",
+                "tags": [
+                    "TrackingService",
+                    "ShipmentService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{id}/documents": {
+            "get": {
+                "summary": "Get list of documents for the shipment.",
+                "description": "Get list of documents for the shipment.",
+                "tags": [
+                    "DocumentService"
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for the returned array of records",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit for the returned array of records.",
+                        "type": "number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/shipments/{id}/documents/{docId}": {
+            "get": {
+                "summary": "Get document.",
+                "description": "Get document for the shipment.",
+                "tags": [
+                    "DocumentService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/marco": {
+            "get": {
+                "summary": "Returns the bluprint for building a new Location",
+                "description": "Returns the bluprint for building a new Location",
+                "tags": [
+                    "LocationService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "This endpoint returns the marco template for creating a Location."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations": {
+            "post": {
+                "summary": "Create a location object in the account.",
+                "description": "Create a location object in the account.",
+                "tags": [
+                    "LocationService"
+                ],
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Location"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Newly created location with unique ID.",
+                        "schema": {
+                            "$ref": "#/definitions/Location"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get list of locations in the account document.",
+                "description": "Get list of locations in the account document.",
+                "tags": [
+                    "LocationService"
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for the returned array of records",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit for the returned array of records.",
+                        "type": "number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all of the locations defined.",
+                        "schema": {
+                            "$ref": "#/definitions/LocationList"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/{id}": {
+            "get": {
+                "summary": "Get location.",
+                "description": "Get location from account document.",
+                "tags": [
+                    "LocationService"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return the location specified by ID parameter",
+                        "schema": {
+                            "$ref": "#/definitions/Location"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update location.",
+                "description": "Update location in account document.",
+                "tags": [
+                    "LocationService"
+                ],
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Location"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully updated the location."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "412": {
+                        "description": "The data failed schema validation.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove locations.",
+                "description": "Remove location from account document.",
+                "tags": [
+                    "LocationService"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Location was removed."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "412": {
+                        "description": "Location is being used by another service.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/{id}/stock": {
+            "get": {
+                "summary": "Get list of stock levels.",
+                "description": "Get list of stock levels.",
+                "tags": [
+                    "StockService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a stock level for a product and location.",
+                "description": "Create a stock level for a product and location.",
+                "tags": [
+                    "StockService"
+                ],
+                "parameters": [],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/{id}/stock/:product": {
+            "get": {
+                "summary": "Get stock.",
+                "description": "Get stock either keyed by location (returning all products at the location) or product (returning all locations containing a product).",
+                "tags": [
+                    "StockService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update stock.",
+                "description": "Update stock level at a location/product.",
+                "tags": [
+                    "StockService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove stock.",
+                "description": "Remove stock at a location/product.",
+                "tags": [
+                    "StockService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/{id}/verification": {
+            "get": {
+                "summary": "Perform an algorithmic address verification.",
+                "description": "V1 of this service may push through to an external service.",
+                "tags": [
+                    "LocationService"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns a pass/fail verification and updates the location record."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/marco": {
+            "get": {
+                "summary": "Returns the bluprint for building a new Product",
+                "description": "Returns the bluprint for building a new Product",
+                "tags": [
+                    "ProductService"
+                ],
+                "parameters": [],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "post": {
+                "summary": "Create a product object.",
+                "description": "Create a product object.",
+                "tags": [
+                    "ProductService"
+                ],
+                "parameters": [],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get list of products.",
+                "description": "Get list of products.",
+                "tags": [
+                    "ProductService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "summary": "Get product.",
+                "description": "Get product.",
+                "tags": [
+                    "ProductService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update product.",
+                "description": "Update product.",
+                "tags": [
+                    "ProductService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove product.",
+                "description": "Remove product.",
+                "tags": [
+                    "ProductService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}/hscode": {
+            "get": {
+                "summary": "Lookup the HS code for a product in our system.",
+                "description": "This endpoint will funnel through to an external service and will result in the mutation of the product object to include the HS code.",
+                "tags": [
+                    "ProductService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}/stock": {
+            "get": {
+                "summary": "Get list of stock levels.",
+                "description": "Get list of stock levels.",
+                "tags": [
+                    "StockService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a stock level for a product and location.",
+                "description": "Create a stock level for a product and location.",
+                "tags": [
+                    "StockService"
+                ],
+                "parameters": [],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}/stock/:location": {
+            "get": {
+                "summary": "Get stock.",
+                "description": "Get stock either keyed by location (returning all products at the location) or product (returning all locations containing a product).",
+                "tags": [
+                    "StockService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update stock.",
+                "description": "Update stock level at a location/product.",
+                "tags": [
+                    "StockService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove stock.",
+                "description": "Remove stock at a location/product.",
+                "tags": [
+                    "StockService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/containers": {
+            "post": {
+                "summary": "Create a container object in the account.",
+                "description": "Create a container object in the account.",
+                "tags": [
+                    "ContainerService"
+                ],
+                "parameters": [],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get list of containers in the account document.",
+                "description": "Get list of containers in the account document.",
+                "tags": [
+                    "ContainerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for the returned array of records",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit for the returned array of records.",
+                        "type": "number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/containers/{id}": {
+            "get": {
+                "summary": "Get container.",
+                "description": "Get container from account document.",
+                "tags": [
+                    "ContainerService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update container.",
+                "description": "Update container in account document.",
+                "tags": [
+                    "ContainerService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove container.",
+                "description": "Remove container from account document.",
+                "tags": [
+                    "ContainerService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifiers": {
+            "post": {
+                "summary": "Create a notifier.",
+                "description": "This creates a named notifier which can be called by rule actions.  It uses the rules environment and the attached enabled templates to send one or more messages to delvery agents.",
+                "tags": [
+                    "NotificationService"
+                ],
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": "Credentials accepted and session tokens created.",
+                        "schema": {
+                            "$ref": "#/definitions/CarrierRegistration"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get list of notifiers.",
+                "description": "Get list of notifiers available in the account locations. ",
+                "tags": [
+                    "NotificationService"
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for the returned array of records",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit for the returned array of records.",
+                        "type": "number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifiers/{id}": {
+            "get": {
+                "summary": "Get notifier.",
+                "description": "Get notifier.",
+                "tags": [
+                    "NotificationService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update notifier.",
+                "description": "Update notifier.",
+                "tags": [
+                    "NotificationService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove notifier.",
+                "description": "Remove notifier.",
+                "tags": [
+                    "NotificationService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifiers/{id}/templates": {
+            "post": {
+                "summary": "Create a template for use with the notification service.",
+                "description": "This creates a template with a class of delivery agent, against a notifier.",
+                "tags": [
+                    "NotificationService"
+                ],
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": "Credentials accepted and session tokens created.",
+                        "schema": {
+                            "$ref": "#/definitions/CarrierRegistration"
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get a list of templates available to a notifier.",
+                "description": "Get a list of templates available to a notifier.",
+                "tags": [
+                    "NotificationService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifiers/{id}/templates/{id}": {
+            "get": {
+                "summary": "Get a template.",
+                "description": "Get a template",
+                "tags": [
+                    "NotificationService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a template.",
+                "description": "Update a template.",
+                "tags": [
+                    "NotificationService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove a template.",
+                "description": "Remove a template.",
+                "tags": [
+                    "NotificationService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/address/verification": {
+            "post": {
+                "summary": "Perform an algorithmic address verification.",
+                "description": "V1 of this service may push through to an external service.",
+                "tags": [
+                    "AddressVerificationService"
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/intel": {
+            "post": {
+                "summary": "Capture a business intelligence packet.",
+                "description": "This service is used to capture any kind of business intel feedback that we want to get out of the platform. Initially this will be capturing potential customers in unavailable countries and interest in carriers by existing customers.",
+                "tags": [
+                    "BusinessIntelService"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Submission accepted."
+                    },
+                    "401": {
+                        "description": "Authentication failed.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Expired credentials.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "AuthRequest": {
+            "type": "object",
+            "description": "The authentication request either needs a username and password or bearer token and account id.",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "bearer_token": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string"
+                }
+            }
+        },
+        "SessionToken": {
+            "type": "object",
+            "description": "Session token and credental access key.",
+            "properties": {
+                "session_token": {
+                    "description": "Session and identity token.",
+                    "type": "string"
+                },
+                "session_ttl": {
+                    "description": "Time to live of token",
+                    "type": "string"
+                },
+                "bearer_token": {
+                    "description": "Replacement bearer token for server initiated token refresh",
+                    "type": "string"
+                },
+                "bearer_ttl": {
+                    "description": "Time to live of replacement bearer token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "session_token",
+                "session_ttl"
+            ]
+        },
+        "AccountDocument": {
+            "description": "AccountDocument",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "id",
+                    "description": "Unique account ID.",
+                    "type": "string",
+                    "format": "guid"
+                },
+                "billing": {
+                    "title": "billing",
+                    "description": "Payment service provider account list.",
+                    "type": "array",
+                    "items": {
+                        "schema": {
+                            "$ref": "#/definitions/PaymentServiceAccount"
+                        }
+                    }
+                },
+                "carrier_credentials": {
+                    "title": "carrierCredentials",
+                    "type": "object",
+                    "description": "Carrier ID keyed object "
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "email": {
+                                "type": "string"
+                            },
+                            "firstname": {
+                                "type": "string"
+                            },
+                            "surname": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "email",
+                            "firstname",
+                            "surname"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "AccountRegistrationRequest": {
+            "description": "AccountRegistration",
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string",
+                    "description": "The country code."
+                },
+                "acceptTermsAndConditions": {
+                    "type": "boolean",
+                    "description": "Acceped terms and conditions."
+                },
+                "acceptPrivacyPolicy": {
+                    "type": "boolean",
+                    "description": "Accepted the privacy policy."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email address of the first user in the account document."
+                }
+            }
+        },
+        "PaymentServiceAccount": {
+            "description": "INCOMPLETE: Payment service provider account information",
+            "type": "object",
+            "properties": {
+                "paymentServiceProvider": {
+                    "title": "paymentServiceProvider",
+                    "description": "The payment service provider the customer account token is registered with.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "paymentServiceProvider"
+            ]
+        },
+        "Location": {
+            "description": "Merchant location",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "id",
+                    "description": "GUID for the location.",
+                    "type": "string"
+                },
+                "uniqueId": {
+                    "title": "uniqueId",
+                    "description": "Merchant specified unique ID.",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "name",
+                    "description": "Merchant location name.",
+                    "type": "string"
+                },
+                "type": {
+                    "title": "type",
+                    "description": "There are currently three different kinds of locations.",
+                    "type": "string",
+                    "enum": [
+                        "Store",
+                        "Warehouse",
+                        "Drop Shipper",
+                        "Collection Point",
+                        "Click & Collect",
+                        "Headquarters"
+                    ]
+                },
+                "isDefault": {
+                    "title": "isDefault",
+                    "description": "This is the default shipping origin",
+                    "type": "boolean"
+                },
+                "address": {
+                    "type": "object",
+                    "$ref": "#/definitions/QualifiedAddress"
+                }
+            },
+            "required": [
+                "id",
+                "uniqueId",
+                "title",
+                "type",
+                "isDefault",
+                "address"
+            ]
+        },
+        "LocationList": {
+            "type": "array",
+            "items": {
+                "description": "Merchant location",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "description": "GUID for the location.",
+                        "type": "string"
+                    },
+                    "uniqueId": {
+                        "title": "uniqueId",
+                        "description": "Merchant specified unique ID.",
+                        "type": "string"
+                    },
+                    "title": {
+                        "title": "name",
+                        "description": "Merchant location name.",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "type",
+                        "description": "There are currently three different kinds of locations.",
+                        "type": "string",
+                        "enum": [
+                            "Store",
+                            "Warehouse",
+                            "Drop Shipper",
+                            "Collection Point",
+                            "Click & Collect",
+                            "Headquarters"
+                        ]
+                    },
+                    "isDefault": {
+                        "title": "isDefault",
+                        "description": "This is the default shipping origin",
+                        "type": "boolean"
+                    }
+                }
+            }
+        },
+        "QualifiedAddress": {
+            "description": "Physical Location",
+            "type": "object",
+            "properties": {
+                "line1": {
+                    "title": "line1",
+                    "description": "street/unit line1",
+                    "type": "string"
+                },
+                "line2": {
+                    "title": "line2",
+                    "description": "street line2.",
+                    "type": "string"
+                },
+                "state_province": {
+                    "title": "state_province",
+                    "description": "State / Province",
+                    "type": "string"
+                },
+                "postal_code": {
+                    "title": "postal_code",
+                    "description": "Postal Code / Zip",
+                    "type": "string"
+                },
+                "country": {
+                    "title": "country",
+                    "description": "Country",
+                    "type": "string"
+                },
+                "latitude": {
+                    "title": "latitude",
+                    "description": "Latitude",
+                    "type": "string"
+                },
+                "longitude": {
+                    "title": "longitude",
+                    "description": "Logitude",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "line1",
+                "state_province",
+                "postal_code",
+                "country"
+            ]
+        },
+        "User": {
+            "description": "User with personal information",
+            "type": "object",
+            "properties": {
+                "usertitle": {
+                    "title": "username",
+                    "description": "Username is the user's email address.",
+                    "type": "string"
+                },
+                "username_verified": {
+                    "title": "username_verified",
+                    "description": "User's email address has been validated.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "password": {
+                    "title": "password",
+                    "description": "Password for the user stored as a hash in the back end.",
+                    "type": "string"
+                },
+                "firsttitle": {
+                    "title": "firstname",
+                    "description": "First name",
+                    "type": "string"
+                },
+                "lasttitle": {
+                    "title": "lastname",
+                    "description": "Last name",
+                    "type": "string"
+                }
+            }
+        },
+        "BearerToken": {
+            "description": "Bearer token for API access. For whitelabel services this token always has to have total authority.",
+            "type": "object",
+            "properties": {
+                "token": {
+                    "title": "token",
+                    "description": "Random hash.",
+                    "type": "string"
+                },
+                "expires": {
+                    "title": "expires",
+                    "description": "Epoch expiry for token.",
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "code",
+                        "description"
+                    ]
+                }
+            },
+            "required": [
+                "error"
+            ]
+        },
+        "CarrierListResponse": {
+            "description": "This provides a list of carriers, with abbreviated information",
+            "type": "object",
+            "properties": {
+                "carriers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/carrierBrief"
+                    }
+                }
+            }
+        },
+        "carrierServiceBrief": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "activated",
+                        "pending",
+                        "available",
+                        "unavailable"
+                    ]
+                },
+                "capabilities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "uniqueItems": true
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "status"
+            ]
+        },
+        "carrierBrief": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "logoURI": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "activated",
+                        "pending",
+                        "available",
+                        "unavailable"
+                    ]
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/carrierServiceBrief"
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "status"
+            ]
+        },
+        "Shipment": {
+            "description": "The Shipment Creation Request Schema",
+            "type": "object",
+            "allOf": [
+                {
+                    "description": "The Shipment Creation Request Schema",
+                    "type": "object",
+                    "required": [
+                        "origin",
+                        "destination",
+                        "pickupAt",
+                        "packages"
+                    ],
+                    "properties": {
+                        "customerReference": {
+                            "description": "A consistent identifier that represents a clients customer",
+                            "type": "string"
+                        },
+                        "origin": {
+                            "description": "This is the schema for representing addresses",
+                            "type": "object",
+                            "required": [
+                                "countryCode"
+                            ],
+                            "properties": {
+                                "isOrganisation": {
+                                    "type": "boolean"
+                                },
+                                "addressLine": {
+                                    "description": "A street address and building number, newline delimited if required",
+                                    "type": "string"
+                                },
+                                "addressLine2": {
+                                    "description": "Another street address and building number, newline delimited if required",
+                                    "type": "string"
+                                },
+                                "countryCode": {
+                                    "description": "An ISO 3166-1 alpha-2 compliant two-letter country code",
+                                    "type": "string",
+                                    "minLength": 2,
+                                    "maxLength": 2
+                                },
+                                "postalCode": {
+                                    "type": "string"
+                                },
+                                "inseeCode": {
+                                    "type": "string"
+                                },
+                                "pickupSiteCode": {
+                                    "type": "string"
+                                },
+                                "housingType": {
+                                    "type": "string"
+                                },
+                                "liftAvailable": {
+                                    "type": "boolean"
+                                },
+                                "apartmentNumber": {
+                                    "description": "apartmentNumber",
+                                    "type": "string"
+                                },
+                                "entryCode": {
+                                    "description": "entryCode",
+                                    "type": "string"
+                                },
+                                "buildingName": {
+                                    "type": "string"
+                                },
+                                "buildingNumber": {
+                                    "type": "string"
+                                },
+                                "floorNumber": {
+                                    "type": "string"
+                                },
+                                "languageCode": {
+                                    "type": "string"
+                                },
+                                "locality": {
+                                    "type": "string",
+                                    "description": "The city or township of this address"
+                                },
+                                "dependentLocality": {
+                                    "type": "string"
+                                },
+                                "administrativeArea": {
+                                    "type": "string",
+                                    "description": "The administrative area of this address ie: state"
+                                },
+                                "companyName": {
+                                    "type": "string"
+                                },
+                                "contactName": {
+                                    "type": "string",
+                                    "minLength": 2,
+                                    "maxLength": 35
+                                },
+                                "contactEmail": {
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "primaryPhoneNumber": {
+                                    "type": "string",
+                                    "minLength": 2,
+                                    "maxLength": 25
+                                },
+                                "secondaryPhoneNumber": {
+                                    "type": "string",
+                                    "minLength": 2,
+                                    "maxLength": 25
+                                },
+                                "faxNumber": {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 25
+                                },
+                                "mobilePhoneNumber": {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 25
+                                },
+                                "tin": {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 25,
+                                    "description": "Tax Identification Number"
+                                }
+                            }
+                        },
+                        "destination": {
+                            "description": "This is the schema for representing addresses",
+                            "type": "object",
+                            "required": [
+                                "countryCode"
+                            ],
+                            "properties": {
+                                "isOrganisation": {
+                                    "type": "boolean"
+                                },
+                                "addressLine": {
+                                    "description": "A street address and building number, newline delimited if required",
+                                    "type": "string"
+                                },
+                                "addressLine2": {
+                                    "description": "Another street address and building number, newline delimited if required",
+                                    "type": "string"
+                                },
+                                "countryCode": {
+                                    "description": "An ISO 3166-1 alpha-2 compliant two-letter country code",
+                                    "type": "string",
+                                    "minLength": 2,
+                                    "maxLength": 2
+                                },
+                                "postalCode": {
+                                    "type": "string"
+                                },
+                                "inseeCode": {
+                                    "type": "string"
+                                },
+                                "pickupSiteCode": {
+                                    "type": "string"
+                                },
+                                "housingType": {
+                                    "type": "string"
+                                },
+                                "liftAvailable": {
+                                    "type": "boolean"
+                                },
+                                "apartmentNumber": {
+                                    "description": "apartmentNumber",
+                                    "type": "string"
+                                },
+                                "entryCode": {
+                                    "description": "entryCode",
+                                    "type": "string"
+                                },
+                                "buildingName": {
+                                    "type": "string"
+                                },
+                                "buildingNumber": {
+                                    "type": "string"
+                                },
+                                "floorNumber": {
+                                    "type": "string"
+                                },
+                                "languageCode": {
+                                    "type": "string"
+                                },
+                                "locality": {
+                                    "type": "string",
+                                    "description": "The city or township of this address"
+                                },
+                                "dependentLocality": {
+                                    "type": "string"
+                                },
+                                "administrativeArea": {
+                                    "type": "string",
+                                    "description": "The administrative area of this address ie: state"
+                                },
+                                "companyName": {
+                                    "type": "string"
+                                },
+                                "contactName": {
+                                    "type": "string",
+                                    "minLength": 2,
+                                    "maxLength": 35
+                                },
+                                "contactEmail": {
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "primaryPhoneNumber": {
+                                    "type": "string",
+                                    "minLength": 2,
+                                    "maxLength": 25
+                                },
+                                "secondaryPhoneNumber": {
+                                    "type": "string",
+                                    "minLength": 2,
+                                    "maxLength": 25
+                                },
+                                "faxNumber": {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 25
+                                },
+                                "mobilePhoneNumber": {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 25
+                                },
+                                "tin": {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 25,
+                                    "description": "Tax Identification Number"
+                                }
+                            }
+                        },
+                        "pickupAt": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "expectedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "packages": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "description": "This is the schema for representing packages",
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "grossWeight",
+                                    "dimensions"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "A reference identifier for the package"
+                                    },
+                                    "grossWeight": {
+                                        "description": "This is the schema for an representing weight",
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "amount",
+                                            "unit"
+                                        ],
+                                        "properties": {
+                                            "amount": {
+                                                "description": "The amount of the weight unit",
+                                                "type": "number",
+                                                "minimum": 0
+                                            },
+                                            "unit": {
+                                                "description": "The weight unit the amount is",
+                                                "type": "string",
+                                                "enum": [
+                                                    "g",
+                                                    "gram",
+                                                    "kg",
+                                                    "kilogram",
+                                                    "lb",
+                                                    "pound",
+                                                    "oz",
+                                                    "ounce"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "dimensions": {
+                                        "description": "This is the schema for representing dimensions",
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "length",
+                                            "width",
+                                            "height",
+                                            "unit"
+                                        ],
+                                        "properties": {
+                                            "length": {
+                                                "type": "number",
+                                                "minimum": 0
+                                            },
+                                            "width": {
+                                                "type": "number",
+                                                "minimum": 0
+                                            },
+                                            "height": {
+                                                "type": "number",
+                                                "minimum": 0
+                                            },
+                                            "unit": {
+                                                "description": "The length unit the dimension's lengths are in",
+                                                "type": "string",
+                                                "enum": [
+                                                    "mm",
+                                                    "millimeter",
+                                                    "millimetre",
+                                                    "cm",
+                                                    "centimeter",
+                                                    "centimetre",
+                                                    "m",
+                                                    "meter",
+                                                    "metre",
+                                                    "ft",
+                                                    "foot",
+                                                    "feet",
+                                                    "in",
+                                                    "inch",
+                                                    "yd",
+                                                    "yard"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "packageType": {
+                                        "description": "Carrier specific package type",
+                                        "type": "string"
+                                    },
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "description": "This is the schema for representing item",
+                                            "type": "object",
+                                            "properties": {
+                                                "isFragile": {
+                                                    "type": "boolean"
+                                                },
+                                                "quantity": {
+                                                    "type": "number",
+                                                    "minimum": 1,
+                                                    "description": "Value of unit of quantity of this item"
+                                                },
+                                                "quantityUnit": {
+                                                    "type": "string",
+                                                    "description": "Unit of quantity (ie. kg, each, boxes etc)"
+                                                },
+                                                "totalMonetaryValue": {
+                                                    "description": "This is the schema for an representing money",
+                                                    "type": "object",
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "amount": {
+                                                            "description": "The amount of the currency",
+                                                            "type": "number"
+                                                        },
+                                                        "currency": {
+                                                            "description": "The currency the money amount is",
+                                                            "type": "string",
+                                                            "maxLength": 3,
+                                                            "minLength": 3
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "amount",
+                                                        "currency"
+                                                    ]
+                                                },
+                                                "sku": {
+                                                    "description": "Stock keeping unit (SKU) to identify item",
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "description": "Description of item for export details",
+                                                    "type": "string"
+                                                },
+                                                "carrierMerchandiseCategory": {
+                                                    "type": "string",
+                                                    "description": "Item category for carrier, required for RC ?? :("
+                                                },
+                                                "scheduleBinfo": {
+                                                    "type": "string",
+                                                    "description": "Schedule B Export Code for Package",
+                                                    "minLength": 0,
+                                                    "maxLength": 15
+                                                },
+                                                "eccn": {
+                                                    "type": "string",
+                                                    "description": "Export Control Classification Number (ECCN)",
+                                                    "minLength": 0,
+                                                    "maxLength": 5
+                                                },
+                                                "hsCode": {
+                                                    "type": "string",
+                                                    "description": "Harmonized Commodity Description and Coding System",
+                                                    "minLength": 2,
+                                                    "maxLength": 10
+                                                },
+                                                "countryOfManufacture": {
+                                                    "description": "An ISO 3166-1 alpha-2 compliant two-letter country code",
+                                                    "type": "string",
+                                                    "minLength": 2,
+                                                    "maxLength": 2
+                                                },
+                                                "countryOfOrigin": {
+                                                    "description": "An ISO 3166-1 alpha-2 compliant two-letter country code",
+                                                    "type": "string",
+                                                    "minLength": 2,
+                                                    "maxLength": 2
+                                                },
+                                                "grossWeight": {
+                                                    "description": "This is the schema for an representing weight",
+                                                    "type": "object",
+                                                    "additionalProperties": false,
+                                                    "required": [
+                                                        "amount",
+                                                        "unit"
+                                                    ],
+                                                    "properties": {
+                                                        "amount": {
+                                                            "description": "The amount of the weight unit",
+                                                            "type": "number",
+                                                            "minimum": 0
+                                                        },
+                                                        "unit": {
+                                                            "description": "The weight unit the amount is",
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "g",
+                                                                "gram",
+                                                                "kg",
+                                                                "kilogram",
+                                                                "lb",
+                                                                "pound",
+                                                                "oz",
+                                                                "ounce"
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                "netCost": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "Y",
+                                                        "N"
+                                                    ],
+                                                    "description": "Net Cost for NAFTA and COO"
+                                                },
+                                                "preferenceCriterion": {
+                                                    "type": "string",
+                                                    "description": "Preference Criteria for NAFTA and COO",
+                                                    "enum": [
+                                                        "A",
+                                                        "B",
+                                                        "C",
+                                                        "D",
+                                                        "E",
+                                                        "F"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

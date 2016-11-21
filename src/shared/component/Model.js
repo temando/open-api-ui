@@ -4,7 +4,18 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import './Model.scss';
 
+/**
+ * Returns a string that displays a Swagger Schema object.
+ *
+ * @param  {Object} schema [description]
+ * @param  {String} name   [description]
+ * @return {String}        [description]
+ */
 function formatSchema(schema, name = '') {
+  if (_.isObject(schema) === false || _.has(schema, 'type') === false) {
+    return `${name}`;
+  }
+
   switch (schema.type) {
     case 'object':
       return `${name ? `${name}: ` : ''}{\n${

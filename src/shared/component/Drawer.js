@@ -13,6 +13,7 @@ export default class Drawer extends Component {
           const top = offset.top;
           $(ref).pushpin({ top });
 
+          // TODO: Tidy up jQuery selectors, use `closest()` for perf.
           $(window).scroll(() => {
             $('.side-nav li').removeClass('active');
             $('.side-nav li .collapsible-body').css('display', 'none');
