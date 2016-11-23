@@ -1,0 +1,56 @@
+{
+  "$schema": "http://dev.temando.io/schemas/biblioteca-catalog+v1#",
+  "id": "docs",
+  "scope": "private",
+  "tomes": [{
+    "$schema": "http://dev.temando.io/schemas/tome+v1#",
+    "id": "temando-field-manual-tome",
+    "name": "Temando Field Manual",
+    "description": "Onboarding and development guide for Temando developers.",
+    "scope": "private",
+    "basePath": "/temando-field-manual-tome"
+  }, {
+    "$schema": "http://dev.temando.io/schemas/tome+v1#",
+    "id": "platform-libraries-tome",
+    "name": "Platform Libraries",
+    "description": "Temando platform libraries documentation.",
+    "scope": "private",
+    "basePath": "/platform-libraries-tome"
+  }, {
+    "$schema": "http://dev.temando.io/schemas/tome+v1#",
+    "id": "platform-services-tome",
+    "name": "Platform Services",
+    "description": "Temando platform services documentation.",
+    "scope": "private",
+    "basePath": "/platform-services-tome"
+  }, {
+    "$schema": "http://dev.temando.io/schemas/tome+v1#",
+    "id": "commissioners-plan-tome",
+    "name": "WIP: Platform Architecture",
+    "description": "Ongoing documentation of the Temando platform's architecture.",
+    "scope": "private",
+    "basePath": "/commissioners-plan-tome"
+  }, {
+    "$schema": "http://dev.temando.io/schemas/tome+v1#",
+    "id": "rosetta-stone-tome",
+    "name": "Developer Experience Documentation",
+    "description": "Documentation on concepts and tooling used to publish documentation at Temando.",
+    "scope": "private",
+    "basePath": "/rosetta-stone-tome",
+    "manifest": {
+        "swagger": [{
+            "source": "path/to/file",
+            "original": "path/to/swagger",
+            "replacement": "newpath/to/swagger",
+            "name": "The Link Text"
+        }]
+    }
+  }, {
+    "$schema": "http://dev.temando.io/schemas/tome+v1#",
+    "id": "pony-express-tome",
+    "name": "Carrier Integration Documentation",
+    "description": "Documentation for carrier integrations.",
+    "scope": "private",
+    "basePath": "/pony-express-tome"
+  }]
+}

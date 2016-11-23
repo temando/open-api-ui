@@ -20,6 +20,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "js-yaml": "^3.7.0",
+    "json-loader": "^0.5.4",
     "lodash": "^4.17.0",
     "marked": "^0.3.6",
     "querystring": "^0.2.0",
