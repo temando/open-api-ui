@@ -8,10 +8,12 @@ import { fetchDefinition } from 'actions/definitionActions';
 import { bindActionCreators } from 'redux';
 
 import Header from 'component/Header';
-import ConnectedDrawer from 'container/ConnectedDrawer';
+import Drawer from 'component/Drawer';
 import ApiDescriptionField from 'component/ApiDescriptionField';
 import TaggedEntrypoints from 'container/TaggedEntrypoints';
 import Footer from 'component/Footer';
+
+import catalog from 'data/catalog.json';
 
 import '../base.scss';
 
@@ -24,7 +26,6 @@ class BaseHandler extends Component {
   }
 
   render () {
-    console.log(this.props.definition);
     const { definition } = this.props;
     const store = definition.store;
     const title = store.info ? store.info.title : '';
@@ -36,7 +37,7 @@ class BaseHandler extends Component {
     return (
       <div className="app">
         <Header title={title} baseUrl={baseUrl} apiVersion={apiVersion} host={host} />
-        <ConnectedDrawer/>
+        <Drawer catalog={catalog} />
         <main className="main container">
           <ApiDescriptionField description={description} />
           <div>

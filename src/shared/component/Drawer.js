@@ -1,11 +1,14 @@
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
+
+import SelectDropdown from './SelectDropdown';
 
 import './Drawer.scss';
 
-export default class Drawer extends Component {
+class Drawer extends Component {
   render() {
-    const { tags } = this.props;
+    const { tags, catalog } = this.props;
     return (
       <ul
         ref={ref => {
@@ -30,6 +33,9 @@ export default class Drawer extends Component {
         className="side-nav fixed collapsible drawer-taglist"
         data-collapsible="accordion"
       >
+        <li>
+          <SelectDropdown catalog={catalog} />
+        </li>
         <li>
           <a className="waves-effect waves-teal" href="#api-description">Api Description</a>
         </li>
@@ -59,12 +65,22 @@ export default class Drawer extends Component {
 }
 
 Drawer.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    description: PropTypes.string,
-    entrypoints: PropTypes.arrayOf(PropTypes.shape({
-      path: PropTypes.string,
-      method: PropTypes.string,
-    })),
-  })),
+  catalog: PropTypes.object
 };
+
+export default connect(
+  state => ({
+    tags: _.map(state.definition.tags,
+      tag => ({
+        name: tag.name,
+        description: tag.description,
+        entrypoints: _.filter(state.definition.entrypoints,
+          entrypoint => _.includes(entrypoint.operation.tags, tag.name))
+          .map(entrypoint => ({
+            method: entrypoint.method,
+            path: entrypoint.path,
+          })),
+      })),
+  }),
+  () => ({})
+)(Drawer);
