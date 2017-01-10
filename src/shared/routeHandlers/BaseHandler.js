@@ -11,7 +11,6 @@ import Header from 'component/Header';
 import Drawer from 'component/Drawer';
 import ApiDescriptionField from 'component/ApiDescriptionField';
 import TaggedEntrypoints from 'container/TaggedEntrypoints';
-import Footer from 'component/Footer';
 
 import catalog from 'data/catalog.json';
 
@@ -38,13 +37,12 @@ class BaseHandler extends Component {
       <div className="app">
         <Header title={title} baseUrl={baseUrl} apiVersion={apiVersion} host={host} />
         <Drawer catalog={catalog} />
-        <main className="main container">
-          <ApiDescriptionField description={description} />
-          <div>
+        <main className="main">
+          <div className="container">
+            <ApiDescriptionField description={description} />
             <TaggedEntrypoints className="apiContent" />
           </div>
         </main>
-        <Footer/>
       </div>
     );
   }
@@ -54,7 +52,7 @@ const mapStateToProps = state => ({
   definition: state.definition
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ 
+const mapDispatchToProps = dispatch => bindActionCreators({
   fetchDefinition
 }, dispatch);
 

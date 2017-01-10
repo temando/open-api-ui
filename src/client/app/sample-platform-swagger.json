@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "Temando API",
-    "description": "Providing consumers with more choice and lowering the cost of shipping.\n\nThis documentation has been created from the following services:\n\n _v1.0.0 Temando Account Service:_ Temando Account Service _v1.0.0 Temando Address Lookup and Verification Service:_ Provides the functionality to verify addresses and to auto-complete partial address information. _v1.0.0 Temando Containers API:_ Providing consumers with more choice and lowering the cost of shipping. _v1.0.0 Temando Locations API:_ Providing consumers with more choice and lowering the cost of shipping. _v0.0.0 Temando Shipment Service:_ Provides the functionality to manage shipment for a given account. _v0.0.0 Temando Order Service:_ Provides the functionality to retrieve marco for order and CRUD for orders attached to a given account. _v1.0.0 Temando Products API:_ Provides a CRUD API for a merchant's products.",
-    "version": "1.0.0"
+    "description": "Providing consumers with more choice and lowering the cost of shipping.",
+    "version": "0.1.0"
   },
   "host": "api.temando.com",
   "schemes": [

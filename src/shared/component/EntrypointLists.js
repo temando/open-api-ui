@@ -11,7 +11,7 @@ export default class EntrypointLists extends Component {
       <div className="listWrapper">
         {
           lists.map(({ title, description, entrypoints }) =>
-            <div
+            <section
               key={title}
               id={title}
               name={title}
@@ -33,7 +33,7 @@ export default class EntrypointLists extends Component {
                     operation={entrypoint.operation}
                   />)}
               </div>
-            </div>
+            </section>
           )
         }
       </div>

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-//import hljs from 'highlight';
 import _ from 'lodash';
 import './Model.scss';
 
@@ -49,10 +48,6 @@ export default class Model extends Component {
     };
   }
 
-  componentDidUpdate() {
-    //hljs.highlightBlock(this.codeBlock);
-  }
-
   setTab(tab) {
     this.setState(state => ({ ...state, modelTab: tab }));
   }
@@ -66,31 +61,40 @@ export default class Model extends Component {
 
     return (
       <div className="model-container">
-        <div className="model-button-container">
-          <a
-            className={classNames({
-              'blue-grey-text text-darken-1': this.state.modelTab !== 'schema',
-            })}
-            onClick={() => this.setTab('schema')}
-          >Model Schema</a>
-          <div className="model-button-separator"/>
-          <a
-            className={classNames({
-              'blue-grey-text text-darken-1': this.state.modelTab !== 'example',
-              disabled: !this.props.examples,
-            })}
-            onClick={() => this.props.examples && this.setTab('example')}
-          >Example</a>
-          <div
-            className={`input-field ${classNames({ hide: this.state.modelTab !== 'example' })}`}
-          >
-            <select
-              onChange={event => this.setMimeType(event.target.value)}
-              defaultValue={this.state.mimeType}
-            >{mimeTypes.map(mime => <option key={mime} value={mime}>{mime}</option>)}
-            </select>
-          </div>
-        </div>
+        <ul className="tabs">
+          <li className='tab'>
+            <a
+              className={classNames({
+                'blue-grey-text text-darken-1': this.state.modelTab !== 'schema',
+                active: this.state.modelTab === 'schema'
+              })}
+              onClick={() => this.setTab('schema')}
+            >Model Schema</a>
+          </li>
+          <li className={classNames({
+            disabled: !this.props.examples,
+            tab: true
+          })}>
+            <a
+              className={classNames({
+                'blue-grey-text text-darken-1': this.state.modelTab !== 'example',
+                active: this.state.modelTab === 'example'
+              })}
+              onClick={() => this.props.examples && this.setTab('example')}
+            >Example</a>
+          </li>
+          <li className='tab'>
+            <div
+              className={`input-field ${classNames({ hide: this.state.modelTab !== 'example' })}`}
+            >
+              <select
+                onChange={event => this.setMimeType(event.target.value)}
+                defaultValue={this.state.mimeType}
+              >{mimeTypes.map(mime => <option key={mime} value={mime}>{mime}</option>)}
+              </select>
+            </div>
+          </li>
+        </ul>
         <pre className="model-code-block">
           <code ref={ref => this.codeBlock = ref}>
             {this.state.modelTab === 'schema'

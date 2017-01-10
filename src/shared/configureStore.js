@@ -26,5 +26,4 @@ export default function configureStore(initialState = window.STATE_FROM_SERVER) 
   );
 
   return store;
-
 }

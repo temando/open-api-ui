@@ -23,7 +23,7 @@ export default class EntrypointCard extends Component {
     const href = _.kebabCase(method + path);
 
     return (
-      <entrypoint
+      <div
         id={href}
         name={href}
         className="scrollspy"
@@ -72,7 +72,7 @@ export default class EntrypointCard extends Component {
             {_.map(responses, (value, key) => <Response key={key} status={key} response={value}/>)}
           </div>
         </div>
-      </entrypoint>
+      </div>
     );
   }
 }

@@ -34,10 +34,7 @@ class Drawer extends Component {
         data-collapsible="accordion"
       >
         <li>
-          <SelectDropdown catalog={catalog} />
-        </li>
-        <li>
-          <a className="waves-effect waves-teal" href="#api-description">Api Description</a>
+          <a className="waves-effect waves-teal" href="#api-description">API Description</a>
         </li>
         {tags.map(tag =>
           <li key={tag.name}>
