@@ -1,12 +1,13 @@
 {
-  "name": "documentation-ui",
+  "name": "temando-open-api-ui",
   "version": "1.0.0",
-  "description": "POC for documentation ui",
+  "private": true,
+  "description": "A Material Design themed Swagger renderer built with React.",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
     "dev": "webpack -d --watch",
-    "build": "webpack -p"
+    "build": "rm -rf dist/* && webpack -p"
   },
   "repository": {
     "type": "git",
