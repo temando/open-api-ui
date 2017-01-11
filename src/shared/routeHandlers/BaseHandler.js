@@ -12,7 +12,9 @@ import Drawer from 'component/Drawer';
 import ApiDescriptionField from 'component/ApiDescriptionField';
 import TaggedEntrypoints from 'container/TaggedEntrypoints';
 
-import catalog from 'data/catalog.json';
+// import catalog from '../../client/data/catalog.json';
+// Don't like this.
+import platformSwagger from '../../client/data/platform-swagger.json'
 
 import '../base.scss';
 
@@ -20,7 +22,7 @@ class BaseHandler extends Component {
   componentDidMount() {
     const { fetchDefinition } = this.props;
     const query = qs.parse(window.location.search.slice(1));
-    const url = query.url || 'http://petstore.swagger.io/v2/swagger.json';
+    const url = query.url || platformSwagger;
     fetchDefinition(url);
   }
 
@@ -36,7 +38,7 @@ class BaseHandler extends Component {
     return (
       <div className="app">
         <Header title={title} baseUrl={baseUrl} apiVersion={apiVersion} host={host} />
-        <Drawer catalog={catalog} />
+        <Drawer />
         <main className="main">
           <div className="container">
             <ApiDescriptionField description={description} />

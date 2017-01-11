@@ -1,0 +1,18 @@
+stages:
+  - build
+  - test
+  - publish
+
+build:
+  stage: build
+  script:
+    - npm-register --scope temando ${NPM_INSTALL_TOKEN}
+    - npm install -q
+    - npm run build:dist
+  artifacts:
+    paths:
+      - node_modules/
+      - dist/
+    expire_in: 1 week
+  tags:
+    - lambda-nodejs

@@ -1,63 +1,151 @@
-var webpack = require('webpack');
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+"use strict";
 
-var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
-var APP_DIR = path.resolve(__dirname, 'src/client/app');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 
-var config = {
-  name: 'browser',
-  devtool: 'source-map',
-  entry: [
-    'webpack-dev-server/client?http://localhost:8100',
-    path.join(__dirname, 'src/client/app/index.js')
-  ],
-  output: {
-    path: APP_DIR,
-    filename: 'bundle.js',
-    publicPath: '/'
-  },
-  devServer: {
-    contentBase: APP_DIR,
-    devtool: 'eval',
-    inline: true,
-    port: 8100,
-    outputPath: APP_DIR,
-    historyApiFallback: true
-  },
-  resolve: {
-    modulesDirectories: ['src/shared/', 'node_modules'],
-    extensions: ['', '.js', '.json']
-  },
-  plugins: [
-    new ExtractTextPlugin('bundle.css')
-  ],
-  module : {
-    loaders : [
-      {
-        test : /\.js?/,
-        exclude : /node_modules/,
-        loader : 'babel'
-      }, {
-        test: /\.json$/,
-        loader: 'json'
-      }, {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap', {
-          allChunks: true
-        })
-      },
-      {
-        test: /\.(ttf|eot|svg|png|gif|jpg|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file'
-      }
-    ]
-  },
-  node: {
-    fs: 'empty',
-    child_process: 'empty',
-    readline: 'empty'
+// The <script_name> in `npm run <script_name>`
+const INVOCATION = process.env.npm_lifecycle_event;
+const DEVELOPMENT = INVOCATION === 'start' || INVOCATION === 'dash';
+const PRODUCTION = process.env.NODE_ENV === 'production';
+
+const devConfig = require('./webpack.config.dev');
+const prodConfig = require('./webpack.config.prod');
+const pkgJson = require('./package.json');
+
+/**
+ * webpack.config.js
+ *
+ * This constructs/merges a webpack config.
+ * - Webpack will call this function
+ * - Checks `INVOCATION` to determine whether to run development or production builds
+ *
+ */
+module.exports = () => {
+  let config = {
+    context: `${__dirname}/src/client`,
+
+    entry: {
+      bundle: [
+        './app/index.js'
+      ],
+
+      // Everything in the `dependencies` should be considered a `vendor` library
+      vendor: [].concat(Object.keys(pkgJson.dependencies)),
+    },
+
+    output: {
+      path       : `${__dirname}/dist`,
+      publicPath : '/',
+      filename   : '[name].[chunkhash].js',
+    },
+
+    devServer: {
+      devtool: 'eval',
+      inline: true,
+      port: 8100,
+      historyApiFallback: true
+    },
+
+    plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor', 'manifest'],
+      }),
+
+      /**
+       * This renders out an `./dist/index.html` with all scripts, title etc. attached
+       */
+      new HtmlWebpackPlugin({
+        title    : pkgJson.description || pkgJson.name,
+        filename : 'index.html',
+        template : './app/index.html',
+      }),
+
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        },
+      }),
+
+      new ExtractTextWebpackPlugin({
+        filename: '[name].[chunkhash].css'
+      }),
+    ],
+
+    resolve: {
+      modules: ['src/shared/', 'node_modules'],
+      extensions: ['.js', '.jsx', '.json']
+    },
+
+    performance: { hints: false },
+
+    module: {
+      rules: [
+        // JS
+        {
+          test    : /\.jsx?$/,
+          use     : ['babel-loader'],
+          exclude : [/node_modules/],
+
+          // ESLINT - ADD BACK WHEN PROJECT HAS ESLINT
+          // rules: [
+          //   {
+          //     enforce : 'pre',
+          //     use     : [{
+          //       loader  : 'eslint-loader',
+          //       options : {
+          //         cache : true,
+          //         quiet : true,
+
+          //         // Causes `npm run build` to fail on lint errors
+          //         // but development does not
+          //         emitWarning: DEVELOPMENT,
+          //       },
+          //     }],
+          //   },
+          // ],
+        },
+
+        // SASS
+        {
+          test : /\.s[ac]ss$/,
+          exclude: /node_modules/,
+          loader: ExtractTextWebpackPlugin.extract({
+            fallbackLoader: 'style-loader',
+            loader: [
+              {
+                loader  : 'css-loader',
+                options : { sourceMap: DEVELOPMENT },
+              },
+              {
+                loader  : 'sass-loader',
+                options : { sourceMap: DEVELOPMENT },
+              },
+            ],
+          })
+        },
+
+        // ASSETS
+        {
+          test : /\.(png|jpg|gif|woff|woff2|eot|svg)$/,
+          use  : [
+            { loader: 'url-loader', options: { limit: 8192 } },
+          ],
+        },
+      ],
+    },
+  };
+
+  if (PRODUCTION) {
+    config = webpackMerge(config, prodConfig());
   }
-};
 
-module.exports = config;
+  if (DEVELOPMENT) {
+    config = webpackMerge(config, devConfig());
+  }
+
+  // console.log(JSON.stringify(config, 2, 2));
+
+  return config;
+};
