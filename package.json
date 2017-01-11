@@ -6,7 +6,7 @@
   "main": "src/client/index.js",
   "scripts": {
     "build": "rm -rf dist/* && webpack",
-    "build:dist": "rm -rf dist/* && webpack -p",
+    "build:dist": "rm -rf dist/* && NODE_ENV=production webpack -p",
     "dash": "webpack-dashboard -- npm start",
     "start": "webpack-dev-server"
   },

@@ -8,8 +8,20 @@ const webpack = require('webpack');
 module.exports = () => {
   return {
     plugins: [
+      new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false,
+      }),
+
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': JSON.stringify('production')
+        }
+      }),
+
       // WARNING: UglifyJsPlugin disables `devtool: 'source-map'` currently...
       new webpack.optimize.UglifyJsPlugin({
+        beautify: false,
         compress: {
           unused        : true,
           dead_code     : true,
@@ -17,6 +29,7 @@ module.exports = () => {
           drop_debugger : true,
           screw_ie8     : true,
         },
+        comments: false,
       }),
     ],
   };

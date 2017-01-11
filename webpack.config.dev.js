@@ -4,8 +4,6 @@ const webpack = require('webpack');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 
-const LIVE_SASS = !!process.env.LIVE_SASS;
-
 /**
  * Delta development config - must be merged into the main config.
  */
@@ -20,8 +18,10 @@ module.exports = () => {
 
     devServer: {
       contentBase : './client',
-      compress    : false,
-      // inline      : true,
+      compress: false,
+      inline: true,
+      port: 8100,
+      historyApiFallback: true,
 
       watchOptions: {
         aggregateTimeout: 100,

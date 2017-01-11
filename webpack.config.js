@@ -37,15 +37,7 @@ module.exports = () => {
 
     output: {
       path       : `${__dirname}/dist`,
-      publicPath : '/',
       filename   : '[name].[chunkhash].js',
-    },
-
-    devServer: {
-      devtool: 'eval',
-      inline: true,
-      port: 8100,
-      historyApiFallback: true
     },
 
     plugins: [
@@ -60,12 +52,6 @@ module.exports = () => {
         title    : pkgJson.description || pkgJson.name,
         filename : 'index.html',
         template : './app/index.html',
-      }),
-
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        },
       }),
 
       new ExtractTextWebpackPlugin({
@@ -137,12 +123,10 @@ module.exports = () => {
     },
   };
 
-  if (PRODUCTION) {
-    config = webpackMerge(config, prodConfig());
-  }
-
   if (DEVELOPMENT) {
     config = webpackMerge(config, devConfig());
+  } else if (PRODUCTION) {
+    config = webpackMerge(config, prodConfig());
   }
 
   // console.log(JSON.stringify(config, 2, 2));

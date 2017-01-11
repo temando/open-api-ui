@@ -1,6 +1,8 @@
-# Temando Open API Visualiser.
+# Temando Open API UI.
 
-This project is a Material Design themed Open API UI built on React. It visualises Open API files such as Swagger. It is inspired by [Material Swagger UI](https://github.com/legendecas/material-swagger-ui) project.
+This project is a [Material Design](https://material.io/) themed [Open API UI](https://www.openapis.org/) built using [React](https://facebook.github.io/react/). It visualises Open API (Swagger) definitions such as Swagger.
+
+It was inspired by the [Material Swagger UI](https://github.com/legendecas/material-swagger-ui) project.
 
 ## Install
 
