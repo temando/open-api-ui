@@ -1,18 +1,28 @@
 stages:
+  - setup
   - build
-  - test
-  - publish
 
-build:
-  stage: build
+setup:
+  image: temandodx/doc-platform:latest
+  stage: setup
   script:
-    - npm-register --scope temando ${NPM_INSTALL_TOKEN}
-    - npm install -q
-    - npm run build:dist
+    - npm set //registry.npmjs.org/:_authToken ${NPM_INSTALL_TOKEN}
+    - npm install
   artifacts:
     paths:
       - node_modules/
+    expire_in: 1 week
+  tags:
+    - docker
+
+build:
+  image: temandodx/doc-platform:latest
+  stage: build
+  script:
+    - npm run build:dist
+  artifacts:
+    paths:
       - dist/
     expire_in: 1 week
   tags:
-    - lambda-nodejs
+    - docker
