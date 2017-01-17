@@ -30,7 +30,12 @@ function formatSchema(schema, name = '', requiredFields = []) {
         }\n]`;
     default:
       const isMandatory = _.includes(requiredFields, name);
-      const type = `${schema.type} ${isMandatory ? `required` : ''}`.trim();
+      let type;
+      if (isMandatory) {
+        type = `${schema.type}, required`;
+      } else {
+        type = schema.type;
+      }
       const description = schema.description || '';
       return `${name}: (${type}) ${description}`.trim();
   }
