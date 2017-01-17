@@ -6,11 +6,12 @@ import './Model.scss';
 /**
  * Returns a string that displays a Swagger Schema object.
  *
- * @param  {Object} schema [description]
- * @param  {String} name   [description]
- * @return {String}        [description]
+ * @param  {Object} schema
+ * @param  {String} name
+ * @param  {Array} requiredFields
+ * @return {String}
  */
-function formatSchema(schema, name = '') {
+function formatSchema(schema, name = '', requiredFields = []) {
   if (_.isObject(schema) === false || _.has(schema, 'type') === false) {
     return `${name}`;
   }
@@ -19,16 +20,24 @@ function formatSchema(schema, name = '') {
     case 'object':
       return `${name ? `${name}: ` : ''}{\n${
         _.map(schema.properties,
-          (property, key) => formatSchema(property, key).replace(/\n/g, '\n  '))
+          (property, key) => formatSchema(property, key, schema.required).replace(/\n/g, '\n  '))
           .map(str => `  ${str},`)
           .join('\n')
         }\n}`;
     case 'array':
       return `${name ? `${name}: ` : ''}[\n  ${
-        formatSchema(schema.items, 'items').replace(/\n/g, '\n  ')
+        formatSchema(schema.items, 'items', schema.required).replace(/\n/g, '\n  ')
         }\n]`;
     default:
-      return `${name}: (${schema.type})${schema.description ? ` ${schema.description}` : ''}`;
+      const isMandatory = _.includes(requiredFields, name);
+      let type;
+      if (isMandatory) {
+        type = `${schema.type}, required`;
+      } else {
+        type = schema.type;
+      }
+      const description = schema.description || '';
+      return `${name}: (${type}) ${description}`.trim();
   }
 }
 
