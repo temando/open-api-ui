@@ -5,7 +5,6 @@ import './SelectDropdown.scss';
 export default class SelectDropdown extends Component {
   render() {
     const { catalog } = this.props;
-    console.log(catalog);
     const tomes = catalog.tomes;
     return (
       <div

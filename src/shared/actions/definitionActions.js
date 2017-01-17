@@ -17,13 +17,21 @@ export function fetchDefinition(url) {
     if (typeof url !== 'string') {
       dispatch(gotDefinition(url));
 
-    // URL is actually a URL, so go fetch the result.
+      // URL is actually a URL, so go fetch the result.
     } else {
       request.get(url).then((response) => {
+        let definition;
+
         if (url.endsWith('yaml') || url.endsWith('yml')) {
-          dispatch(gotDefinition(yaml.safeLoad(response.text)));
+          definition = yaml.safeLoad(response.text);
+        } if (url.endsWith('json')) {
+          definition = JSON.parse(response.text);
         } else {
-          dispatch(gotDefinition(response.body));
+          definition = response.body;
+        }
+
+        if (definition) {
+          dispatch(gotDefinition(definition));
         }
       }).catch((err) => {
         alert(`An error occured fetching definition: ${err.message}`);
