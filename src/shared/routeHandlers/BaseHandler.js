@@ -11,22 +11,22 @@ import Header from 'component/Header';
 import Drawer from 'component/Drawer';
 import ApiDescriptionField from 'component/ApiDescriptionField';
 import TaggedEntrypoints from 'container/TaggedEntrypoints';
-
-// import catalog from '../../client/data/catalog.json';
-// Don't like this.
-import platformSwagger from '../../client/data/platform-swagger.json'
+import DownloadButton from 'component/DownloadButton';
 
 import '../base.scss';
 
 class BaseHandler extends Component {
   componentDidMount() {
     const { fetchDefinition } = this.props;
+    // TODO: find a way to inject platformSwaggerUrl from definitionViewer into this project
+    const platformSwaggerUrl = 'data/platform-swagger.json';
     const query = qs.parse(window.location.search.slice(1));
-    const url = query.url || platformSwagger;
-    fetchDefinition(url);
+    this.url = query.url || platformSwaggerUrl;
+
+    fetchDefinition(this.url);
   }
 
-  render () {
+  render() {
     const { definition } = this.props;
     const store = definition.store;
     const title = store.info ? store.info.title : '';
@@ -37,12 +37,13 @@ class BaseHandler extends Component {
 
     return (
       <div className="app">
-        <Header title={title} baseUrl={baseUrl} apiVersion={apiVersion} host={host} />
+        <Header title={title} baseUrl={baseUrl} apiVersion={apiVersion} host={host}/>
         <Drawer />
         <main className="main">
           <div className="container">
-            <ApiDescriptionField description={description} />
-            <TaggedEntrypoints className="apiContent" />
+            <ApiDescriptionField description={description}/>
+            <DownloadButton url={this.url}/>
+            <TaggedEntrypoints className="apiContent"/>
           </div>
         </main>
       </div>
