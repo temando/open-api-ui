@@ -13,7 +13,7 @@ export default function configureStore(initialState = window.STATE_FROM_SERVER) 
 
   const middlewares = [ thunk ];
   if (process.env.NODE_ENV !== 'production') {
-    middlewares.push(createLogger());
+    // middlewares.push(createLogger());
   }
 
   const store = createStore(
