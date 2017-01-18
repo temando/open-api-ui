@@ -19,7 +19,8 @@ The following will start a webpack development server at [http://localhost:8100/
 ```sh
 $ npm run start
 ```
+When running locally, app requires a `url` parameter that points to a valid Swagger file.
 
-App can be accessed at http://localhost:8100 and by default displays Temando Platform API definition for testing purposes and to avoid CORS issues. This shouldn't be long term...
-
-Additional Swagger files can be visualised by adding a `url` query parameter. For example, the [PetStore v2 Swagger](http://localhost:8100/?url=http://petstore.swagger.io/v2/swagger.json) can also be visualised.
+For example:
+- To visualise Temando Platform API Swagger, turn off CORS on browser using a plugin (.e.g [Chrome ExtensionAllow-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en)), and go to <http://localhost:8100/?url=http://canary-developers.temando.com.s3-website-us-east-1.amazonaws.com/definition-viewer/data/platform-swagger.json>. The CORS issue will go away once we work out a way to add CORS header to Amazon S3 (sth like [this docs](http://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html), which doesn't seem to work at the moment).
+- To visualise PetStore v2 Swagger, go to <http://localhost:8100/?url=http://petstore.swagger.io/v2/swagger.json>
