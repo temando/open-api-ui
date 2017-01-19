@@ -5,6 +5,12 @@ import EntrypointCard from './EntrypointCard';
 import './EntrypointLists.scss';
 
 export default class EntrypointLists extends Component {
+  componentDidUpdate() {
+    const hash = window.location.hash;
+    window.location.hash = '';
+    window.location.hash = hash;
+  }
+
   render() {
     const { lists } = this.props;
     return (

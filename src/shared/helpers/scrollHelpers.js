@@ -1,7 +1,7 @@
 export function synchDrawerLocationWithContentLocation(ref) {
   const offset = $(ref).offset() || {};
   const top = offset.top;
-  // $(ref).pushpin({ top });
+  $(ref).pushpin({ top });
 
   // TODO: Tidy up jQuery selectors, use `closest()` for perf.
   $(window).scroll(() => {
@@ -13,7 +13,5 @@ export function synchDrawerLocationWithContentLocation(ref) {
     activeAnchor.parent().parent().parent().parent().addClass('active');
     activeAnchor.parent().parent().parent().css('display', 'block');
     activeAnchor.parent().addClass('active');
-
-    window.location.hash = '';
   });
 }
