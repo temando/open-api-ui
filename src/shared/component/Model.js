@@ -70,7 +70,7 @@ export default class Model extends Component {
 
     return (
       <div className="model-container">
-        <ul className="tabs">
+        <ul className="tabs" ref={ref => $(document).ready(() => { $(ref).tabs(); })}>
           <li className='tab'>
             <a
               className={classNames({
@@ -86,7 +86,9 @@ export default class Model extends Component {
           })}>
             <a
               className={classNames({
-                'blue-grey-text text-darken-1': this.state.modelTab !== 'example',
+                'blue-grey-text': this.state.modelTab !== 'example',
+                'text-lighten-4': !this.props.examples,
+                'text-darken-1': this.props.examples,
                 active: this.state.modelTab === 'example'
               })}
               onClick={() => this.props.examples && this.setTab('example')}
