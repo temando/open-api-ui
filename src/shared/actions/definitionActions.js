@@ -12,31 +12,24 @@ import yaml from 'js-yaml';
  */
 export function fetchDefinition(url) {
   return (dispatch) => {
-    // Hack because I'm a noob at React, if the url is actually an object (JSON)
-    // dispatch that instead.
-    if (typeof url !== 'string') {
-      dispatch(gotDefinition(url));
+    request.get(url).then((response) => {
+      let definition;
 
-      // URL is actually a URL, so go fetch the result.
-    } else {
-      request.get(url).then((response) => {
-        let definition;
+      if (url.endsWith('yaml') || url.endsWith('yml')) {
+        definition = yaml.safeLoad(response.text);
+      }
+      if (url.endsWith('json')) {
+        definition = JSON.parse(response.text);
+      } else {
+        definition = response.body;
+      }
 
-        if (url.endsWith('yaml') || url.endsWith('yml')) {
-          definition = yaml.safeLoad(response.text);
-        } if (url.endsWith('json')) {
-          definition = JSON.parse(response.text);
-        } else {
-          definition = response.body;
-        }
-
-        if (definition) {
-          dispatch(gotDefinition(definition));
-        }
-      }).catch((err) => {
-        alert(`An error occured fetching definition: ${err.message}`);
-      });
-    }
+      if (definition) {
+        dispatch(gotDefinition(definition));
+      }
+    }).catch((err) => {
+      alert(`An error occured fetching definition: ${err.message}`);
+    });
   }
 }
 
