@@ -13,15 +13,15 @@ import yaml from 'js-yaml';
 export function fetchDefinition(url) {
   return (dispatch) => {
     request.get(url).then((response) => {
-      let definition;
+      let definition = response.body;
 
+      // Handle YAML
       if (url.endsWith('yaml') || url.endsWith('yml')) {
         definition = yaml.safeLoad(response.text);
-      }
-      if (url.endsWith('json')) {
+
+      // Or handle JSON.
+      } else if (url.endsWith('json')) {
         definition = JSON.parse(response.text);
-      } else {
-        definition = response.body;
       }
 
       if (definition) {
