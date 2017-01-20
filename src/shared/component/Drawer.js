@@ -1,8 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-
-import SelectDropdown from './SelectDropdown';
+import {synchDrawerLocationWithContentLocation} from '../helpers/scrollHelpers';
 
 import './Drawer.scss';
 
@@ -11,24 +10,7 @@ class Drawer extends Component {
     const { tags, catalog } = this.props;
     return (
       <ul
-        ref={ref => {
-          const offset = $(ref).offset() || {};
-          const top = offset.top;
-          $(ref).pushpin({ top });
-
-          // TODO: Tidy up jQuery selectors, use `closest()` for perf.
-          $(window).scroll(() => {
-            $('.side-nav li').removeClass('active');
-            $('.side-nav li .collapsible-body').css('display', 'none');
-            $('.side-nav li .collapsible-body ul li a').parent().removeClass('active');
-
-            const activeAnchor = $('.side-nav li .collapsible-body ul li .active').first();
-            activeAnchor.parent().parent().parent().parent()
-              .addClass('active');
-            activeAnchor.parent().parent().parent().css('display', 'block');
-            activeAnchor.parent().addClass('active');
-          });
-        }}
+        ref={synchDrawerLocationWithContentLocation}
         id="slide-out"
         className="side-nav fixed collapsible drawer-taglist"
         data-collapsible="accordion"
