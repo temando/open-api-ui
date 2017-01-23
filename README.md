@@ -25,3 +25,13 @@ For example:
 - To visualise PetStore v2 Swagger, go to <http://localhost:8100/?url=http://petstore.swagger.io/v2/swagger.json>
 
 Note that the response headers for a request to the swagger file must have [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) turned on. Otherwise the browser will throw a CORS error.
+
+## Deploy to production
+
+Run the following to generate the artifacts at `/dist`:
+
+```sh
+npm run build:dist
+```
+
+Deploy the files at `/dist` to your server.
