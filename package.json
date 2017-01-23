@@ -12,13 +12,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@src.temando.io:developer-experience/temando-open-api-ui.git"
+    "url": "git@github.com:temando/open-api-ui.git"
   },
   "keywords": [
     "ui"
   ],
-  "author": "Florie Guibert",
-  "license": "ISC",
+  "contributors": [
+    {
+      "name": "Florie Guibert",
+      "email": "florie.guibert@temando.com"
+    },
+    {
+      "name": "Brendan Abbot",
+      "email": "brendan.abbott@temando.com"
+    },
+    {
+      "name": "Khoa Tran",
+      "email": "khoa.tran@temando.com"
+    }
+  ],
+  "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.5",
     "js-yaml": "^3.7.0",
