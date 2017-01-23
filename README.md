@@ -7,7 +7,7 @@ It was inspired by the [Material Swagger UI](https://github.com/legendecas/mater
 ## Install
 
 ```sh
-$ git clone git@src.temando.io:developer-experience/temando-open-api-ui.git
+$ git clone git@github.com:temando/open-api-ui.git
 $ cd temando-open-api-ui
 $ npm install
 ```
