@@ -1,5 +1,10 @@
 # Temando Open API UI.
 
+[![Travis CI](https://img.shields.io/travis/temando/open-api-ui.svg)](https://travis-ci.org/temando/open-api-ui)
+[![Github Forks](https://img.shields.io/github/forks/temando/open-api-ui.svg?style=social&label=Fork)](https://github.com/temando/open-api-ui/network)
+[![Github Issues](https://img.shields.io/github/issues-raw/temando/open-api-ui.svg)](https://github.com/temando/open-api-ui/issues)
+[![MIT License](https://img.shields.io/github/license/temando/open-api-ui.svg)](https://en.wikipedia.org/wiki/MIT_License)
+
 This project is a [Material Design](https://material.io/) themed [Open API UI](https://www.openapis.org/) built using [React](https://facebook.github.io/react/). It visualises Open API (Swagger) definitions such as Swagger.
 
 It was inspired by the [Material Swagger UI](https://github.com/legendecas/material-swagger-ui) project.
