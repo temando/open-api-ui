@@ -1,5 +1,7 @@
 # Temando Open API UI.
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/temando/open-api-ui.svg)](https://greenkeeper.io/)
+
 [![Travis CI](https://img.shields.io/travis/temando/open-api-ui.svg)](https://travis-ci.org/temando/open-api-ui)
 [![Github Forks](https://img.shields.io/github/forks/temando/open-api-ui.svg?style=social&label=Fork)](https://github.com/temando/open-api-ui/network)
 [![Github Issues](https://img.shields.io/github/issues-raw/temando/open-api-ui.svg)](https://github.com/temando/open-api-ui/issues)
