@@ -65,7 +65,7 @@
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.0",
-    "webpack-dashboard": "^0.2.1",
+    "webpack-dashboard": "^0.3.0",
     "webpack-dev-server": "^1.16.2",
     "webpack-merge": "^2.3.1"
   }
