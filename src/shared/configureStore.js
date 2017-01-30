@@ -16,10 +16,12 @@ export default function configureStore(initialState = window.STATE_FROM_SERVER) 
     middlewares.push(createLogger());
   }
 
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
   const store = createStore(
     reducer,
     initialState,
-    compose(applyMiddleware(...middlewares))
+    composeEnhancers(applyMiddleware(...middlewares))
   );
 
   return store;
