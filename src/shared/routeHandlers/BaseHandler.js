@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchDefinition } from 'actions/definitionActions';
 import { bindActionCreators } from 'redux';
-import Header from 'component/Header';
-import Drawer from 'component/Drawer';
-import ApiDescriptionField from 'component/ApiDescriptionField';
-import TaggedEntrypoints from 'container/TaggedEntrypoints';
-import DownloadButton from 'component/DownloadButton';
+import { fetchDefinition } from '../actions/definitionActions';
+import Header from '../component/Header';
+import Drawer from '../component/Drawer';
+import ApiDescriptionField from '../component/ApiDescriptionField';
+import TaggedEntrypoints from '../container/TaggedEntrypoints';
+import DownloadButton from '../component/DownloadButton';
 
-import '../base.scss';
+import './base.scss';
 
 class BaseHandler extends Component {
   constructor(props) {
