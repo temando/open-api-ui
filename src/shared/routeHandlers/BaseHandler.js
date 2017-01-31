@@ -11,9 +11,13 @@ import DownloadButton from 'component/DownloadButton';
 import '../base.scss';
 
 class BaseHandler extends Component {
+  constructor(props) {
+    super(props);
+    this.swaggerURL = this.props.location.query.url;
+  }
+
   componentDidMount() {
     const { fetchDefinition } = this.props;
-    this.swaggerURL = this.props.location.query.url;
     fetchDefinition(this.swaggerURL);
   }
 
@@ -41,6 +45,10 @@ class BaseHandler extends Component {
     );
   }
 }
+
+BaseHandler.propTypes = {
+  location: React.PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => ({
   definition: state.definition
