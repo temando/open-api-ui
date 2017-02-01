@@ -1,5 +1,6 @@
 import request from 'superagent';
 import yaml from 'js-yaml';
+import { ActionType } from '../constants/constants';
 
 /**
  * Responsible for fetching the Swagger from the given `url` and
@@ -12,30 +13,42 @@ import yaml from 'js-yaml';
  */
 export function fetchDefinition(url) {
   return (dispatch) => {
-    request.get(url).then((response) => {
-      let definition = response.body;
+    request
+      .get(url)
+      .timeout({
+        response: 5000,
+        deadline: 60000,
+      })
+      .then((response) => {
+        let definition = response.body;
 
-      // Handle YAML
-      if (url.endsWith('yaml') || url.endsWith('yml')) {
-        definition = yaml.safeLoad(response.text);
+        if (url.endsWith('yaml') || url.endsWith('yml')) {
+          definition = yaml.safeLoad(response.text);
+        } else if (url.endsWith('json')) {
+          definition = JSON.parse(response.text);
+        }
 
-      // Or handle JSON.
-      } else if (url.endsWith('json')) {
-        definition = JSON.parse(response.text);
+        if (definition) {
+          dispatch(fetchDefinitionSuccess(definition));
+        }
+      }).catch((error) => {
+        dispatch(fetchDefinitionFailure(error));
       }
-
-      if (definition) {
-        dispatch(gotDefinition(definition));
-      }
-    }).catch((err) => {
-      alert(`An error occured fetching definition: ${err.message}`);
-    });
-  }
+    );
+  };
 }
 
-export function gotDefinition(definition) {
+function fetchDefinitionSuccess(definition) {
   return {
-    type: 'GOT_DEFINITION',
-    definition
+    type: ActionType.FETCH_DEFINITION_SUCCESS,
+    definition,
   }
 }
+
+function fetchDefinitionFailure(error) {
+  return {
+    type: ActionType.FETCH_DEFINITION_FAILURE,
+    error,
+  }
+}
+
