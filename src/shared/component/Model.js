@@ -16,18 +16,22 @@ function formatSchema(schema, name = '', requiredFields = []) {
     return `${name}`;
   }
 
+  let output;
+
   switch (schema.type) {
     case 'object':
-      return `${name ? `${name}: ` : ''}{\n${
+      output = `${name ? `${name}: ` : ''}{\n${
         _.map(schema.properties,
           (property, key) => formatSchema(property, key, schema.required).replace(/\n/g, '\n  '))
           .map(str => `  ${str},`)
           .join('\n')
         }\n}`;
+      break;
     case 'array':
-      return `${name ? `${name}: ` : ''}[\n  ${
+      output = `${name ? `${name}: ` : ''}[\n  ${
         formatSchema(schema.items, 'items', schema.required).replace(/\n/g, '\n  ')
         }\n]`;
+      break;
     default:
       const isMandatory = _.includes(requiredFields, name);
       let type;
@@ -37,8 +41,43 @@ function formatSchema(schema, name = '', requiredFields = []) {
         type = schema.type;
       }
       const description = schema.description || '';
-      return `${name}: (${type}) ${description}`.trim();
+      output = `${name}: (${type}) ${description}`.trim();
+
+      // Also attach enum values if exist
+      if (schema.enum) {
+        output += `. Valid values: ${renderEnumValues(schema.enum)}`;
+      }
   }
+
+  return output;
+}
+
+/**
+ * Return a string representation of an enum
+ * Example output: ['black', 'white', null]
+ *
+ * @param {Array} values
+ *
+ * @return {string}
+ */
+function renderEnumValues(values) {
+  if (!values || values.length == 0) {
+    return '';
+  }
+
+  const result = values
+    .map((value) => {
+      if (value === null || value === undefined) {
+        return `${value}`;
+      } else if (typeof value === 'string') {
+        return `'${value}'`;
+      } else {
+        return value;
+      }
+    })
+    .join(', ');
+
+  return `[${result}]`;
 }
 
 export default class Model extends Component {
@@ -70,7 +109,9 @@ export default class Model extends Component {
 
     return (
       <div className="model-container">
-        <ul className="tabs" ref={ref => $(document).ready(() => { $(ref).tabs(); })}>
+        <ul className="tabs" ref={ref => $(document).ready(() => {
+          $(ref).tabs();
+        })}>
           <li className='tab'>
             <a
               className={classNames({
