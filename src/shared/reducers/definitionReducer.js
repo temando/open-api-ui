@@ -4,6 +4,7 @@ const initialState = {
   store: {},
   tags: [],
   entrypoints: [],
+  isLoadingComplete: false,
 };
 
 function extractTags(definedTags, entrypoints) {
@@ -88,6 +89,7 @@ export default function definitionReducer(state = initialState, action) {
         getDefinitions(newState.store.definitions)
       );
       newState.tags = extractTags(_.get(newState.store, 'tags', []), newState.entrypoints);
+      newState.isLoadingComplete = true;
       break;
     default:
       break;
