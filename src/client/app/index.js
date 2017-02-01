@@ -1,25 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Router, browserHistory, createMemoryHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import queryString from 'query-string';
+import App from 'component/App';
+import SwaggerURLInput from 'component/SwaggerURLInput';
 
-import routes from 'routes';
-import configureStore from 'configureStore';
-
-// const isBrowser = typeof navigator !== 'undefined' && navigator.indexOf('Node.js') === -1;
-
-const store = configureStore();
-//const history = syncHistoryWithStore(browserHistory, store);
-
-export default class App extends React.Component {
-  render () {
-    return (
-      <Provider store={store}>
-        <Router history={browserHistory}>{routes}</Router>
-      </Provider>
-    );
-  }
+function onSwaggerURLProvided(url) {
+  window.location.replace(
+    window.location.pathname + `?url=${url}`
+  );
 }
 
-ReactDOM.render(<App/>, document.getElementById('content'));
+const query = queryString.parse(window.location.search);
+const swaggerURL = query.url;
+
+if (!swaggerURL) {
+  ReactDOM.render(<SwaggerURLInput
+    onSwaggerURLProvided={onSwaggerURLProvided}/>, document.getElementById('content'));
+} else {
+  ReactDOM.render(<App/>, document.getElementById('content'));
+}

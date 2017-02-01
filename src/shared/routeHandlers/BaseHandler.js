@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
-import qs from 'querystring';
-
 import { fetchDefinition } from 'actions/definitionActions';
-
 import { bindActionCreators } from 'redux';
-
 import Header from 'component/Header';
 import Drawer from 'component/Drawer';
 import ApiDescriptionField from 'component/ApiDescriptionField';
@@ -16,14 +11,14 @@ import DownloadButton from 'component/DownloadButton';
 import '../base.scss';
 
 class BaseHandler extends Component {
+  constructor(props) {
+    super(props);
+    this.swaggerURL = this.props.location.query.url;
+  }
+
   componentDidMount() {
     const { fetchDefinition } = this.props;
-    // TODO: find a way to inject platformSwaggerUrl from definitionViewer into this project
-    const platformSwaggerUrl = 'data/platform-swagger.json';
-    const query = qs.parse(window.location.search.slice(1));
-    this.url = query.url || platformSwaggerUrl;
-
-    fetchDefinition(this.url);
+    fetchDefinition(this.swaggerURL);
   }
 
   render() {
@@ -42,7 +37,7 @@ class BaseHandler extends Component {
         <main className="main">
           <div className="container">
             <ApiDescriptionField description={description}/>
-            <DownloadButton url={this.url}/>
+            <DownloadButton url={this.swaggerURL}/>
             <TaggedEntrypoints className="apiContent"/>
           </div>
         </main>
@@ -50,6 +45,10 @@ class BaseHandler extends Component {
     );
   }
 }
+
+BaseHandler.propTypes = {
+  location: React.PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => ({
   definition: state.definition

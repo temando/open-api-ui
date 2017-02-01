@@ -11,15 +11,19 @@ export default function configureStore(initialState = window.STATE_FROM_SERVER) 
     routing: routerReducer
   });
 
-  const middlewares = [ thunk ];
+  const middlewares = [thunk];
   if (process.env.NODE_ENV !== 'production') {
     middlewares.push(createLogger());
   }
 
+  const additionalStoreEnhancers = [
+    typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
+  ];
+
   const store = createStore(
     reducer,
     initialState,
-    compose(applyMiddleware(...middlewares))
+    compose(applyMiddleware(...middlewares), ...additionalStoreEnhancers)
   );
 
   return store;
