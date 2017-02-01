@@ -5,7 +5,7 @@ import EntrypointCard from './EntrypointCard';
 import './EntrypointLists.scss';
 
 export default class EntrypointLists extends Component {
-  componentDidUpdate() {
+  componentDidMount() {
     const hash = window.location.hash;
     window.location.hash = '';
     window.location.hash = hash;
