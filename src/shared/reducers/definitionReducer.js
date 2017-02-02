@@ -1,10 +1,11 @@
 import _ from 'lodash';
+import { SwaggerLoadingStatus, ActionType } from '../constants/constants';
 
 const initialState = {
   store: {},
   tags: [],
   entrypoints: [],
-  isLoadingComplete: false,
+  swaggerLoadingStatus: SwaggerLoadingStatus.INITIAL,
 };
 
 function extractTags(definedTags, entrypoints) {
@@ -81,16 +82,22 @@ function getDefinitions(definitionObject) {
 
 export default function definitionReducer(state = initialState, action) {
   const newState = { ...state };
+
   switch (action.type) {
-    case 'GOT_DEFINITION':
+    case ActionType.FETCH_DEFINITION_SUCCESS:
       newState.store = action.definition;
       newState.entrypoints = defineEntrypoints(
         extractEntrypoints(_.get(newState.store, 'paths', {})),
         getDefinitions(newState.store.definitions)
       );
       newState.tags = extractTags(_.get(newState.store, 'tags', []), newState.entrypoints);
-      newState.isLoadingComplete = true;
+      newState.swaggerLoadingStatus = SwaggerLoadingStatus.LOADING_COMPLETED;
       break;
+    case ActionType.FETCH_DEFINITION_FAILURE:
+      newState.swaggerLoadingStatus = SwaggerLoadingStatus.LOADING_FAILED;
+      newState.swaggerLoadingError = action.error;
+      break;
+
     default:
       break;
   }

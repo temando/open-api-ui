@@ -8,6 +8,8 @@ import ApiDescriptionField from '../component/ApiDescriptionField';
 import TaggedEntrypoints from '../container/TaggedEntrypoints';
 import DownloadButton from '../component/DownloadButton';
 import LoadingBar from '../component/LoadingBar';
+import LoadingError from '../component/LoadingError';
+import { SwaggerLoadingStatus } from '../constants/constants';
 
 import './base.scss';
 
@@ -25,8 +27,10 @@ class BaseHandler extends Component {
   render() {
     const { definition } = this.props;
 
-    if (!definition.isLoadingComplete) {
+    if (definition.swaggerLoadingStatus === SwaggerLoadingStatus.INITIAL) {
       return <LoadingBar/>;
+    } else if (definition.swaggerLoadingStatus === SwaggerLoadingStatus.LOADING_FAILED) {
+      return <LoadingError error={definition.swaggerLoadingError}/>;
     }
 
     const store = definition.store;
