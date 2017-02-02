@@ -34,7 +34,7 @@ const Request = ({ parameters = [] }) => {
           </tbody>
         </table> : null
       }
-      { body ? <Model schema={body.schema}/> : null}
+      { body ? <Model schema={body.schema} examples={body['x-examples']}/> : null}
     </div>
   );
 };
