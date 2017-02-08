@@ -12,8 +12,12 @@ import './Model.scss';
  * @return {String}
  */
 function formatSchema(schema, name = '', requiredFields = []) {
-  if (_.isObject(schema) === false || _.has(schema, 'type') === false) {
+  if (_.isObject(schema) === false) {
     return `${name}`;
+  }
+
+  if (_.has(schema, 'type') === false) {
+    schema.type = 'string';
   }
 
   let output;
