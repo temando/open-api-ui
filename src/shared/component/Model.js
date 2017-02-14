@@ -33,7 +33,7 @@ function formatSchema(schema, name = '', requiredFields = []) {
       break;
     case 'array':
       output = `${name ? `${name}: ` : ''}[\n  ${
-        formatSchema(schema.items, 'items', schema.required).replace(/\n/g, '\n  ')
+        formatSchema(schema.items, '', schema.required).replace(/\n/g, '\n  ')
         }\n]`;
       break;
     default:
@@ -45,7 +45,13 @@ function formatSchema(schema, name = '', requiredFields = []) {
         type = schema.type;
       }
       const description = schema.description || '';
-      output = `${name}: (${type}) ${description}`.trim();
+
+      if (name) {
+        output = `${name}: (${type}) ${description}`.trim();
+      } else {
+        output = `(${type}) ${description}`.trim();
+      }
+
 
       // Also attach enum values if exist
       if (schema.enum) {
