@@ -33,7 +33,7 @@ function formatSchema(schema, name = '', requiredFields = []) {
       break;
     case 'array':
       output = `${name ? `${name}: ` : ''}[\n  ${
-        formatSchema(schema.items, '', schema.required).replace(/\n/g, '\n  ')
+        formatSchema(schema.items, null, schema.required).replace(/\n/g, '\n  ')
         }\n]`;
       break;
     default:
