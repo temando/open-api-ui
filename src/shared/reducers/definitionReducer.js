@@ -52,29 +52,30 @@ function defineSchema(schema, definitions) {
   }
 }
 
-function defineEntrypoints(entrypoints, definitions) {
+function defineEntrypoints(entrypoints, getDefinition) {
   return entrypoints.map(entrypoint => ({
     ...entrypoint,
     operation: {
       ...entrypoint.operation,
       parameters: _.map(entrypoint.operation.parameters, param => {
         if (param.$ref) {
-          return definitions(param.$ref);
+          return getDefinition(param.$ref);
         }
-        return { ...param, schema: defineSchema(param.schema, definitions) };
+        return { ...param, schema: defineSchema(param.schema, getDefinition) };
       }),
       responses: _.mapValues(entrypoint.operation.responses, responseObject => ({
         ...responseObject,
-        schema: defineSchema(responseObject.schema, definitions),
+        schema: defineSchema(responseObject.schema, getDefinition),
       })),
     },
   }));
 }
 
-function getDefinitions(definitionObject) {
+function getDefinition(swaggerDefinitions) {
   return (key) => {
     if (key.startsWith('#/definitions/')) {
-      return definitionObject[_.replace(key, '#/definitions/', '')];
+      const definitionKey = _.replace(key, '#/definitions/', '');
+      return swaggerDefinitions[definitionKey];
     }
     return undefined;
   };
@@ -85,14 +86,27 @@ export default function definitionReducer(state = initialState, action) {
 
   switch (action.type) {
     case ActionType.FETCH_DEFINITION_SUCCESS:
-      newState.store = action.definition;
-      newState.entrypoints = defineEntrypoints(
-        extractEntrypoints(_.get(newState.store, 'paths', {})),
-        getDefinitions(newState.store.definitions)
+      const swaggerDefinition = action.definition;
+      const swaggerDefinitions = swaggerDefinition.definitions;
+      const swaggerPaths = _.get(swaggerDefinition, 'paths', {});
+      const swaggerTags = _.get(swaggerDefinition, 'tags', []);
+      const swaggerEntrypoints = extractEntrypoints(swaggerPaths);
+
+      console.log({ swaggerEntrypoints, swaggerDefinitions });
+
+      const entrypoints = defineEntrypoints(
+        swaggerEntrypoints,
+        getDefinition(swaggerDefinitions)
       );
-      newState.tags = extractTags(_.get(newState.store, 'tags', []), newState.entrypoints);
+
+      const tags = extractTags(swaggerTags, entrypoints);
+
+      newState.store = swaggerDefinition;
+      newState.entrypoints = entrypoints;
+      newState.tags = tags;
       newState.swaggerLoadingStatus = SwaggerLoadingStatus.LOADING_COMPLETED;
       break;
+
     case ActionType.FETCH_DEFINITION_FAILURE:
       newState.swaggerLoadingStatus = SwaggerLoadingStatus.LOADING_FAILED;
       newState.swaggerLoadingError = action.error;
