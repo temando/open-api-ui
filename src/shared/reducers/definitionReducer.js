@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { SwaggerLoadingStatus, ActionType } from '../constants/constants';
+import { resolveAllOf } from '../helpers/resolver';
 
 const initialState = {
   store: {},
@@ -87,12 +88,10 @@ export default function definitionReducer(state = initialState, action) {
   switch (action.type) {
     case ActionType.FETCH_DEFINITION_SUCCESS:
       const swaggerDefinition = action.definition;
-      const swaggerDefinitions = swaggerDefinition.definitions;
+      const swaggerDefinitions = resolveAllOf(swaggerDefinition.definitions);
       const swaggerPaths = _.get(swaggerDefinition, 'paths', {});
       const swaggerTags = _.get(swaggerDefinition, 'tags', []);
       const swaggerEntrypoints = extractEntrypoints(swaggerPaths);
-
-      console.log({ swaggerEntrypoints, swaggerDefinitions });
 
       const entrypoints = defineEntrypoints(
         swaggerEntrypoints,
