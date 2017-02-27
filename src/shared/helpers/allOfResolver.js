@@ -1,7 +1,16 @@
-import _ from 'lodash';
+import clone from 'lodash/clone';
+import cloneDeep from 'lodash/cloneDeep';
+import uniq from 'lodash/uniq';
 
+/**
+ * Resolve node with allOf
+ *
+ * @param {Object} node
+ *
+ * @return {Object}
+ */
 function resolveAllOfItem(node) {
-  const output = _.cloneDeep(node);
+  const output = cloneDeep(node);
   delete output.allOf;
 
   const allOfItems = node.allOf;
@@ -10,16 +19,16 @@ function resolveAllOfItem(node) {
 
     Object.keys(item).forEach(key => {
       if (!output.hasOwnProperty(key)) {
-        output[key] = _.cloneDeep(item[key]);
+        output[key] = cloneDeep(item[key]);
       } else if (key === 'properties') {
         const properties = item[key];
 
         Object.keys(properties).forEach(name => {
-          output.properties[name] = _.cloneDeep(properties[name]);
+          output.properties[name] = cloneDeep(properties[name]);
         });
       } else if (key === 'required') {
         // Concatenate to existing list and remove duplicates
-        const requiredArray = _.uniq(output.required.concat(item[key]));
+        const requiredArray = uniq(output.required.concat(item[key]));
         output.required = requiredArray.sort();
       }
     });
@@ -28,7 +37,12 @@ function resolveAllOfItem(node) {
   return output;
 }
 
-export function resolveAllOfRecursive(obj) {
+/**
+ * Resolve allOf for definitions object
+ *
+ * @param {Object} obj
+ */
+function resolveAllOfRecursive(obj) {
   Object.keys(obj).forEach(key => {
     const item = obj[key];
 
@@ -47,14 +61,14 @@ export function resolveAllOfRecursive(obj) {
 }
 
 /**
- * Resolves allOf for definitions object
+ * Resolve allOf for definitions object
  *
  * @param {Object} obj
  *
  * @return {Object} definitions object that has allOf resolved
  */
 export function resolveAllOf(obj) {
-  const clonedObj = _.clone(obj);
+  const clonedObj = clone(obj);
   resolveAllOfRecursive(clonedObj);
 
   return clonedObj;

@@ -1,12 +1,12 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
-import swaggerDefinitions from '../../fixtures/swagger-definitions-object.json';
-import { resolveAllOf } from '../../../src/shared/helpers/resolver';
+import swaggerDefinitions from '../../fixtures/swagger-definitions-allOfResolver.json';
+import { resolveAllOf } from '../../../src/shared/helpers/allOfResolver';
 
 chai.use(dirtyChai);
 
-describe('definitionReducer', () => {
-  it('definitionReducer', () => {
+describe('allOfResolver', () => {
+  it('allOfResolver', () => {
     const result = resolveAllOf(swaggerDefinitions);
     const items = result.StoredContainerCollection.properties.data.items;
 

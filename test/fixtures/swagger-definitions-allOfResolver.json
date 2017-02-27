@@ -1,0 +1,225 @@
+{
+  "StoredContainerCollection": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "container"
+                  ]
+                }
+              },
+              "required": [
+                "id"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Merchant container name.",
+                  "type": "string"
+                },
+                "type": {
+                  "description": "The type of container.",
+                  "enum": [
+                    "Box",
+                    "Carton",
+                    "Crate",
+                    "Cylinder",
+                    "Document Envelope",
+                    "Flat Pack",
+                    "Letter",
+                    "Pallet",
+                    "Parcel",
+                    "Satchel/Bag",
+                    "Other"
+                  ]
+                },
+                "outerDimensions": {
+                  "description": "Dimensions object describing the actual (outer) dimensions of the container, which are used for calculating freight cost",
+                  "type": "object",
+                  "properties": {
+                    "length": {
+                      "description": "The length of the container",
+                      "type": "number"
+                    },
+                    "width": {
+                      "description": "The width of the container",
+                      "type": "number"
+                    },
+                    "height": {
+                      "description": "The height of the container.",
+                      "type": "number"
+                    },
+                    "unitOfMeasurement": {
+                      "description": "The measurement unit of the dimensions.",
+                      "enum": [
+                        "mm",
+                        "millimeter",
+                        "millimeters",
+                        "millimetre",
+                        "millimetres",
+                        "cm",
+                        "centimeter",
+                        "centimeters",
+                        "centimetre",
+                        "centimetres",
+                        "m",
+                        "meter",
+                        "metre",
+                        "ft",
+                        "foot",
+                        "feet",
+                        "in",
+                        "inch",
+                        "yd",
+                        "yard"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "length",
+                    "width",
+                    "height",
+                    "unitOfMeasurement"
+                  ]
+                },
+                "innerDimensions": {
+                  "description": "Dimensions object describing the available (inner) dimensions of the container, which are used to identify available space for packing",
+                  "type": "object",
+                  "properties": {
+                    "length": {
+                      "description": "The length of the container",
+                      "type": "number"
+                    },
+                    "width": {
+                      "description": "The width of the container",
+                      "type": "number"
+                    },
+                    "height": {
+                      "description": "The height of the container.",
+                      "type": "number"
+                    },
+                    "unitOfMeasurement": {
+                      "description": "The measurement unit of the dimensions.",
+                      "enum": [
+                        "mm",
+                        "millimeter",
+                        "millimeters",
+                        "millimetre",
+                        "millimetres",
+                        "cm",
+                        "centimeter",
+                        "centimeters",
+                        "centimetre",
+                        "centimetres",
+                        "m",
+                        "meter",
+                        "metre",
+                        "ft",
+                        "foot",
+                        "feet",
+                        "in",
+                        "inch",
+                        "yd",
+                        "yard"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "length",
+                    "width",
+                    "height",
+                    "unitOfMeasurement"
+                  ]
+                },
+                "tareWeight": {
+                  "description": "The unladen weight of the container",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "description": "The value of the weight unit.",
+                      "type": "number"
+                    },
+                    "unitOfMeasurement": {
+                      "description": "The measurement unit of the weight.",
+                      "enum": [
+                        "g",
+                        "gram",
+                        "grams",
+                        "oz",
+                        "ounce",
+                        "ounces",
+                        "kg",
+                        "kilogram",
+                        "kilograms",
+                        "lb",
+                        "pound",
+                        "pounds"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "unitOfMeasurement"
+                  ]
+                },
+                "maximumWeight": {
+                  "description": "The maximum weight that the container can hold",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "description": "The value of the weight unit.",
+                      "type": "number"
+                    },
+                    "unitOfMeasurement": {
+                      "description": "The measurement unit of the weight.",
+                      "enum": [
+                        "g",
+                        "gram",
+                        "grams",
+                        "oz",
+                        "ounce",
+                        "ounces",
+                        "kg",
+                        "kilogram",
+                        "kilograms",
+                        "lb",
+                        "pound",
+                        "pounds"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "unitOfMeasurement"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "type",
+                "outerDimensions",
+                "innerDimensions",
+                "tareWeight",
+                "maximumWeight"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "required": [
+      "data"
+    ]
+  }
+}

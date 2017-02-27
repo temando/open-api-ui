@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { SwaggerLoadingStatus, ActionType } from '../constants/constants';
-import { resolveAllOf } from '../helpers/resolver';
+import { resolveAllOf } from '../helpers/allOfResolver';
 
 const initialState = {
   store: {},
