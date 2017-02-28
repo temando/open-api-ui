@@ -17,6 +17,7 @@
 }
 
 .model-code-block {
-  padding: 15px;
-  background-color: #fafafa;
+  pre {
+    padding: 12px !important;
+  }
 }

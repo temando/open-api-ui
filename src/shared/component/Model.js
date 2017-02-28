@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/styles';
 import './Model.scss';
 
 /**
@@ -157,15 +159,15 @@ export default class Model extends Component {
             </div>
           </li>
         </ul>
-        <pre className="model-code-block">
-          <code ref={ref => this.codeBlock = ref}>
+        <div className='model-code-block'>
+          <SyntaxHighlighter language='json' style={docco} showLineNumbers={this.state.modelTab === 'example'}>
             {this.state.modelTab === 'schema'
               ? formatSchema(this.props.schema)
               : JSON.stringify(this.props.examples && this.props.examples[this.state.mimeType],
               null, 2)
             }
-          </code>
-        </pre>
+          </SyntaxHighlighter>
+        </div>
       </div>
     );
   }
