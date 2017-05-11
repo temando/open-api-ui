@@ -1,3 +1,5 @@
+> This project is now deprecated. We're working on a cleaner renderer that supports Open API v3. See [Open API Renderer](https://github.com/temando/open-api-renderer)
+
 # Temando Open API UI.
 
 [![Travis CI](https://img.shields.io/travis/temando/open-api-ui.svg)](https://travis-ci.org/temando/open-api-ui)
