@@ -58,7 +58,7 @@
     "babel-preset-env": "^1.1.8",
     "babel-preset-react": "^6.16.0",
     "chai": "^3.5.0",
-    "css-loader": "^0.26.0",
+    "css-loader": "^0.28.3",
     "dirty-chai": "^1.2.2",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "file-loader": "^0.11.0",
